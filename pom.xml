@@ -26,6 +26,8 @@
   <name>Flex websocket client</name>
 
   <build>
+    <finalName>flex-websocket-client</finalName>
+  
     <sourceDirectory>src/main/flex</sourceDirectory>
     <testSourceDirectory>src/test/flex</testSourceDirectory>
     <plugins>
