@@ -41,14 +41,8 @@ task sourcesJar(type: Jar) {
 	from files(srcDirs)
 }
 
-//task asdocJar(type: Jar, dependsOn: 'asdoc') {
-//	classifier = 'asdoc'
-//	from asdoc.outputDir
-//}
-
 artifacts {
 	archives sourcesJar
-	// archives asdocJar
 }
 
 signing {
