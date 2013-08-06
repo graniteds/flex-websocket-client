@@ -20,7 +20,7 @@ group = 'org.graniteds'
 version = '1.0'
 type = 'swc'
 output = 'flex-websocket-client-' + version
-srcDirs = [ '/src/main/flex' ]
+srcDirs = [ 'src/main/flex' ]
 
 configurations {
 	deployerJars
