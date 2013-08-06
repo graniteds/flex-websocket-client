@@ -1,0 +1,46 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.gradlefx', name: 'gradlefx', version: '0.6.4'
+    }
+}
+
+ext {
+	repositoryUserName = ''
+	repositoryPassword = ''
+}
+
+apply plugin: 'gradlefx'
+apply plugin: 'maven'
+
+group = 'org.graniteds'
+version = '1.0'
+type = 'swc'
+output = 'flex-socket-client-' + version
+srcDirs = [ '/src/main/flex' ]
+
+configurations {
+	deployerJars
+}
+
+repositories {
+	mavenLocal()
+}
+
+dependencies {
+	flexSDK group: 'com.adobe', name: 'flex-sdk', version: '3.6', ext: 'zip'
+	
+	deployerJars 'org.apache.maven.wagon:wagon-ssh:2.2'
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			repository(url: "http://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+				authentication(userName: repositoryUserName, password: repositoryPassword)
+			}
+		}
+	}
+}

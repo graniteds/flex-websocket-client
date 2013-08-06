@@ -13,7 +13,6 @@
     <sourceAttachmentPath/>
   </compiler>
   <applications>
-    <application path="flex-websocket-client.as"/>
   </applications>
   <modules/>
   <buildCSSFiles/>
