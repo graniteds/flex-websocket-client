@@ -4,6 +4,8 @@ bin-debug/
 bin-release/
 target/
 build/
+publish/
+doc/
 
 # Other files and folders
 .settings/

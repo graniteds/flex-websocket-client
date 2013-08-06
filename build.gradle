@@ -8,17 +8,18 @@ buildscript {
 }
 
 ext {
-	repositoryUserName = ''
-	repositoryPassword = ''
+	sonatypeOssUserName = ''
+	sonatypeOssPassword = ''
 }
 
 apply plugin: 'gradlefx'
 apply plugin: 'maven'
+apply plugin: 'signing'
 
 group = 'org.graniteds'
 version = '1.0'
 type = 'swc'
-output = 'flex-socket-client-' + version
+output = 'flex-websocket-client-' + version
 srcDirs = [ '/src/main/flex' ]
 
 configurations {
@@ -32,14 +33,63 @@ repositories {
 dependencies {
 	flexSDK group: 'com.adobe', name: 'flex-sdk', version: '3.6', ext: 'zip'
 	
-	deployerJars 'org.apache.maven.wagon:wagon-ssh:2.2'
+	deployerJars 'org.apache.maven.wagon:wagon-http:2.2'
+}
+
+task sourcesJar(type: Jar) {
+	classifier = 'sources'
+	from files(srcDirs)
+}
+
+//task asdocJar(type: Jar, dependsOn: 'asdoc') {
+//	classifier = 'asdoc'
+//	from asdoc.outputDir
+//}
+
+artifacts {
+	archives sourcesJar
+	// archives asdocJar
+}
+
+signing {
+	sign configurations.archives
 }
 
 uploadArchives {
 	repositories {
 		mavenDeployer {
-			repository(url: "http://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-				authentication(userName: repositoryUserName, password: repositoryPassword)
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+			
+			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+				authentication(userName: sonatypeOssUserName, password: sonatypeOssPassword)
+			}
+			
+			pom.project {
+				name 'Flex websocket client'
+				packaging 'swc'
+				description 'Websocket client derived from the work by gimite'
+				url 'https://github.com/gimite/web-socket-js'
+				
+				scm {
+					url 'scm:git@github.com:graniteds/flex-websocket-client.git'
+					connection 'scm:git@github.com:graniteds/flex-websocket-client.git'
+					developerConnection 'scm:git@github.com:graniteds/flex-websocket-client.git'
+				}
+				
+				licenses {
+					license {
+						name 'GNU LIBRARY GENERAL PUBLIC LICENSE, Version 2, June 1991'
+						url 'http://opensource.org/licenses/LGPL-2.1'
+						distribution 'repo'
+					}
+				}
+				
+				developers {
+					developer {
+						id 'gimite'
+						name 'gimite'
+					}
+				}
 			}
 		}
 	}
