@@ -7,11 +7,6 @@ buildscript {
     }
 }
 
-ext {
-	sonatypeOssUserName = ''
-	sonatypeOssPassword = ''
-}
-
 apply plugin: 'gradlefx'
 apply plugin: 'maven'
 apply plugin: 'signing'
